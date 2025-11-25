@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Sparkles, Database, FileText, Github, MessageSquare, Zap, ArrowRight, Play, CheckCircle2, Plug2, Brain, Server, Code2, Figma, Monitor, Settings, Key, Shield, User, MessageCircle, CheckCircle } from 'lucide-react'
+import { Sparkles, Database, FileText, Github, MessageSquare, Zap, ArrowRight, Play, CheckCircle2, Plug2, Brain, Server, Code2, Figma, Monitor, Settings, Key, Shield, User, MessageCircle, CheckCircle, ExternalLink, Package, GitBranch } from 'lucide-react'
 import './App.css'
 
 function App() {
@@ -12,7 +12,8 @@ function App() {
     { id: 2, title: 'Setup Flow', icon: Settings },
     { id: 3, title: 'Credentials', icon: Key },
     { id: 4, title: 'Real Examples', icon: Zap },
-    { id: 5, title: 'Two Real Flows', icon: User }
+    { id: 5, title: 'MCP Servers Directory', icon: Package },
+    { id: 6, title: 'Two Real Flows', icon: User }
   ]
 
   interface ExampleStep {
@@ -31,6 +32,8 @@ function App() {
     setupRole: string
     everydayRole: string
     steps: ExampleStep[]
+    docLink?: string
+    isConceptual?: boolean
   }
 
   const examples: Example[] = [
@@ -44,6 +47,7 @@ function App() {
       credentialType: 'Database URL + password',
       setupRole: 'Engineer or DevOps',
       everydayRole: 'Analysts, PMs, Support team',
+      docLink: 'https://github.com/modelcontextprotocol/servers#-reference-servers',
       steps: [
         { actor: 'You', action: 'Type in Claude: "Show me all customers who signed up this month"' },
         { actor: 'Claude', action: 'Decides to use the customer-db MCP server' },
@@ -57,11 +61,12 @@ function App() {
       icon: FileText,
       description: 'AI searches and organizes your documents',
       color: 'from-purple-500 to-pink-500',
-      interactionPoint: 'AI assistant chat',
+      interactionPoint: 'Claude Desktop or any AI app with filesystem MCP support',
       needsCredentials: false,
       credentialType: 'Local file access only',
       setupRole: 'Built into app',
       everydayRole: 'Anyone',
+      docLink: 'https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem',
       steps: [
         { actor: 'You', action: 'Ask: "Find all invoices from last quarter"' },
         { actor: 'AI', action: 'Calls file-system MCP server' },
@@ -80,6 +85,7 @@ function App() {
       credentialType: 'GitHub personal access token',
       setupRole: 'Engineer',
       everydayRole: 'Developers, PMs',
+      docLink: 'https://github.com/modelcontextprotocol/servers/tree/main/src/git',
       steps: [
         { actor: 'You', action: 'Type: "Create a PR to fix the login bug"' },
         { actor: 'AI', action: 'Uses GitHub MCP server' },
@@ -98,6 +104,7 @@ function App() {
       credentialType: 'Slack bot token + workspace consent',
       setupRole: 'Workspace admin',
       everydayRole: 'Any team member',
+      docLink: 'https://github.com/zencoderai/slack-mcp-server',
       steps: [
         { actor: 'You', action: 'Ask: "What did #design discuss today?"' },
         { actor: 'AI', action: 'Calls Slack MCP server' },
@@ -116,6 +123,7 @@ function App() {
       credentialType: 'Local workspace access',
       setupRole: 'Built into VSCode',
       everydayRole: 'Developers',
+      docLink: 'https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem',
       steps: [
         { actor: 'You', action: 'Type in VSCode chat: "Find all API calls to /checkout"' },
         { actor: 'VSCode AI', action: 'Uses code-explorer MCP server' },
@@ -140,6 +148,25 @@ function App() {
         { actor: 'MCP Server', action: 'Fetches components via Figma API' },
         { actor: 'MCP Server', action: 'Analyzes component names and styles' },
         { actor: 'Figma AI', action: 'Shows checklist of inconsistent buttons' }
+      ]
+    },
+    {
+      title: 'Figma Library ↔ GitHub Design Tokens',
+      icon: GitBranch,
+      description: 'Sync design system components to GitHub repo',
+      color: 'from-violet-500 to-purple-500',
+      interactionPoint: 'Figma plugin side panel',
+      needsCredentials: true,
+      credentialType: 'GitHub token + Figma API access',
+      setupRole: 'Engineer or plugin author',
+      everydayRole: 'Designers and Engineers',
+      isConceptual: true,
+      steps: [
+        { actor: 'Designer', action: 'Updates a component in Figma Library (e.g., changes button color)' },
+        { actor: 'Designer', action: 'Clicks "Sync to GitHub" in Figma plugin' },
+        { actor: 'MCP Server', action: 'Reads component properties via Figma API' },
+        { actor: 'MCP Server', action: 'Converts to design tokens (JSON) and commits to GitHub repo' },
+        { actor: 'Engineer', action: 'Reviews PR in GitHub, merges to update design system code' }
       ]
     }
   ]
@@ -592,8 +619,27 @@ function App() {
                     <div className={`w-16 h-16 bg-gradient-to-br ${example.color} rounded-2xl flex items-center justify-center mb-4`}>
                       <Icon className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-2xl font-semibold text-white mb-3">{example.title}</h3>
+                    <div className="flex items-center gap-2 mb-3">
+                      <h3 className="text-2xl font-semibold text-white">{example.title}</h3>
+                      {example.isConceptual && (
+                        <span className="px-2 py-1 bg-amber-500/20 text-amber-300 text-xs rounded-full border border-amber-500/30">
+                          Concept Example
+                        </span>
+                      )}
+                    </div>
                     <p className="text-slate-300 text-lg mb-4">{example.description}</p>
+                    {example.docLink && (
+                      <a
+                        href={example.docLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 mb-4"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        View Documentation
+                      </a>
+                    )}
                     
                     <div className="flex items-center gap-2 mb-2">
                       <Monitor className="w-4 h-4 text-purple-400" />
@@ -673,8 +719,214 @@ function App() {
           </div>
         )}
 
-        {/* Section 5: Two Real Flows */}
+        {/* Section 5: MCP Servers Directory */}
         {activeSection === 5 && (
+          <div className="space-y-12 animate-in fade-in duration-500">
+            <div className="text-center max-w-4xl mx-auto">
+              <h2 className="text-4xl font-bold text-white mb-6">MCP Servers Directory</h2>
+              <p className="text-xl text-slate-300 leading-relaxed mb-4">
+                Explore available MCP servers to connect AI to your tools and data
+              </p>
+              <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-500/30">
+                <p className="text-blue-200 text-sm">
+                  <strong>📚 Always up-to-date:</strong> For the complete, live list of all MCP servers, visit the{' '}
+                  <a href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200 underline">
+                    official MCP servers repository
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            {/* Reference Servers */}
+            <div className="space-y-6">
+              <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-2xl p-6 border border-purple-500/30">
+                <h3 className="text-2xl font-semibold text-white mb-4 flex items-center gap-2">
+                  <Server className="w-6 h-6 text-purple-400" />
+                  Official Reference Servers
+                </h3>
+                <p className="text-slate-300 mb-6">Maintained by the MCP team to demonstrate features and best practices</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <a href="https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-purple-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-purple-300">Filesystem</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-purple-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Secure file operations with configurable access controls</p>
+                  </a>
+                  <a href="https://github.com/modelcontextprotocol/servers/tree/main/src/git" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-purple-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-purple-300">Git</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-purple-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Tools to read, search, and manipulate Git repositories</p>
+                  </a>
+                  <a href="https://github.com/modelcontextprotocol/servers/tree/main/src/fetch" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-purple-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-purple-300">Fetch</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-purple-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Web content fetching and conversion for efficient LLM usage</p>
+                  </a>
+                  <a href="https://github.com/modelcontextprotocol/servers/tree/main/src/memory" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-purple-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-purple-300">Memory</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-purple-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Knowledge graph-based persistent memory system</p>
+                  </a>
+                  <a href="https://github.com/modelcontextprotocol/servers/tree/main/src/sequential-thinking" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-purple-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-purple-300">Sequential Thinking</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-purple-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Dynamic and reflective problem-solving through thought sequences</p>
+                  </a>
+                  <a href="https://github.com/modelcontextprotocol/servers/tree/main/src/time" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-purple-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-purple-300">Time</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-purple-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Time and timezone conversion capabilities</p>
+                  </a>
+                </div>
+              </div>
+
+              {/* Popular Third-Party Servers */}
+              <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 rounded-2xl p-6 border border-blue-500/30">
+                <h3 className="text-2xl font-semibold text-white mb-4 flex items-center gap-2">
+                  <Package className="w-6 h-6 text-blue-400" />
+                  Popular Third-Party Servers
+                </h3>
+                <p className="text-slate-300 mb-6">Production-ready MCP servers from companies and the community</p>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <a href="https://github.com/zencoderai/slack-mcp-server" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-blue-300">Slack</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Channel management and messaging</p>
+                  </a>
+                  <a href="https://github.com/microsoft/azure-devops-mcp" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-blue-300">Azure DevOps</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Repos, work items, builds, releases</p>
+                  </a>
+                  <a href="https://www.atlassian.com/platform/remote-mcp-server" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-blue-300">Atlassian</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Jira work items and Confluence pages</p>
+                  </a>
+                  <a href="https://github.com/awslabs/mcp" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-blue-300">AWS</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">AWS services and best practices</p>
+                  </a>
+                  <a href="https://github.com/microsoft/mcp/tree/main/servers/azure" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-blue-300">Azure</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Azure Storage, Cosmos DB, CLI</p>
+                  </a>
+                  <a href="https://github.com/datastax/astra-db-mcp" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-blue-300">Astra DB</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">DataStax NoSQL database operations</p>
+                  </a>
+                  <a href="https://github.com/box-community/mcp-server-box" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-blue-300">Box</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Content management with Box AI</p>
+                  </a>
+                  <a href="https://github.com/apify/apify-mcp-server" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-blue-300">Apify</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">6,000+ web scraping tools</p>
+                  </a>
+                  <a href="https://github.com/apollographql/apollo-mcp-server" target="_blank" rel="noopener noreferrer" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all group">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-blue-300">Apollo GraphQL</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">Connect GraphQL APIs to AI agents</p>
+                  </a>
+                </div>
+              </div>
+
+              {/* Categories Overview */}
+              <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-2xl p-6 border border-green-500/30">
+                <h3 className="text-2xl font-semibold text-white mb-4">Server Categories</h3>
+                <p className="text-slate-300 mb-6">MCP servers are available for many different use cases:</p>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-green-300 mb-2">📁 Files & Storage</h4>
+                    <p className="text-xs text-slate-400">Filesystem, Google Drive, Box, Dropbox, S3</p>
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-blue-300 mb-2">💻 Developer Tools</h4>
+                    <p className="text-xs text-slate-400">GitHub, GitLab, Azure DevOps, Bitbucket</p>
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-purple-300 mb-2">💬 Communication</h4>
+                    <p className="text-xs text-slate-400">Slack, Discord, Email, Teams</p>
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-cyan-300 mb-2">🗄️ Databases</h4>
+                    <p className="text-xs text-slate-400">PostgreSQL, MySQL, MongoDB, Redis</p>
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-pink-300 mb-2">🎨 Design & Creative</h4>
+                    <p className="text-xs text-slate-400">Figma, Canva, Image generation</p>
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-amber-300 mb-2">📊 Analytics & Data</h4>
+                    <p className="text-xs text-slate-400">Snowflake, BigQuery, Amplitude</p>
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-orange-300 mb-2">☁️ Cloud Platforms</h4>
+                    <p className="text-xs text-slate-400">AWS, Azure, Google Cloud, Kubernetes</p>
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-rose-300 mb-2">🔧 Productivity</h4>
+                    <p className="text-xs text-slate-400">Notion, Airtable, Calendars, Tasks</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Call to Action */}
+              <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-2xl p-8 border border-purple-500/30 text-center">
+                <h3 className="text-2xl font-semibold text-white mb-4">Explore Hundreds More</h3>
+                <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
+                  The MCP ecosystem includes hundreds of servers for databases, APIs, cloud services, productivity tools, and more. New servers are added regularly by the community.
+                </p>
+                <a
+                  href="https://github.com/modelcontextprotocol/servers"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all"
+                >
+                  <ExternalLink className="w-5 h-5" />
+                  Browse Full MCP Servers Directory
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Section 6: Two Real Flows */}
+        {activeSection === 6 && (
           <div className="space-y-12 animate-in fade-in duration-500">
             <div className="text-center max-w-4xl mx-auto">
               <h2 className="text-4xl font-bold text-white mb-6">Two Real Flows: Tech vs Non-Technical</h2>
