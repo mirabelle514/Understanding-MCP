@@ -5,6 +5,58 @@ import './App.css'
 function App() {
   const [activeSection, setActiveSection] = useState(0)
   const [selectedExample, setSelectedExample] = useState<number | null>(null)
+  const [showDemo, setShowDemo] = useState(false)
+  const [demoStep, setDemoStep] = useState(0)
+  const [selectedClient, setSelectedClient] = useState<'claude' | 'vscode' | 'figma' | null>(null)
+
+  const clientDetails = {
+    claude: {
+      title: 'Claude Desktop',
+      icon: MessageCircle,
+      color: 'from-purple-500 to-pink-500',
+      description: 'Chat window where you type',
+      fullDescription: 'Claude Desktop is Anthropic\'s official desktop app. It\'s like ChatGPT but with MCP superpowers - it can connect to your local files, databases, and other tools.',
+      examples: [
+        '"Show me all customers from Europe" → MCP queries your database',
+        '"Summarize the Q3 report" → MCP reads your local files',
+        '"What meetings do I have today?" → MCP checks your calendar'
+      ],
+      setupInfo: 'Engineers configure MCP servers in Claude\'s config file. Once set up, you just chat normally.'
+    },
+    vscode: {
+      title: 'VSCode',
+      icon: Code2,
+      color: 'from-blue-500 to-indigo-500',
+      description: 'AI chat panel in your editor',
+      fullDescription: 'VSCode with AI extensions (like GitHub Copilot Chat or Continue) can use MCP to understand your entire codebase, not just the file you\'re looking at.',
+      examples: [
+        '"Find all TODO comments" → MCP scans your entire project',
+        '"What does the checkout function do?" → MCP reads related files',
+        '"Create a PR for this fix" → MCP interacts with GitHub'
+      ],
+      setupInfo: 'Extensions handle MCP configuration. You just install the extension and start chatting.'
+    },
+    figma: {
+      title: 'Figma Plugin',
+      icon: Figma,
+      color: 'from-pink-500 to-rose-500',
+      description: 'AI sidebar in your design',
+      fullDescription: 'Figma plugins with MCP can analyze your designs, check for inconsistencies, and even sync changes to code repositories.',
+      examples: [
+        '"List buttons with wrong colors" → MCP analyzes your design system',
+        '"Check accessibility contrast" → MCP scans all text layers',
+        '"Export tokens to GitHub" → MCP syncs to your repo'
+      ],
+      setupInfo: 'Plugin developers set up MCP. You just install the plugin and use it in your designs.'
+    }
+  }
+
+  const demoSteps = [
+    { label: 'You type a question', detail: '"Show me all customers from Europe"', icon: User, color: 'from-purple-500 to-pink-500' },
+    { label: 'AI decides to use MCP', detail: 'Claude recognizes it needs database access', icon: Brain, color: 'from-blue-500 to-cyan-500' },
+    { label: 'MCP connects to your tool', detail: 'Database server runs the query', icon: Server, color: 'from-green-500 to-emerald-500' },
+    { label: 'You see the results', detail: 'A formatted table appears in chat', icon: CheckCircle2, color: 'from-amber-500 to-orange-500' }
+  ]
 
   const sections = [
     { id: 0, title: 'What is MCP?', icon: Sparkles },
@@ -175,11 +227,23 @@ function App() {
   ]
 
   const startAnimation = () => {
-    setActiveSection(1) // Navigate to "Where You Interact" section
-    // Scroll to content after a brief delay to let section render
-    setTimeout(() => {
-      window.scrollTo({ top: 400, behavior: 'smooth' })
-    }, 100)
+    setShowDemo(true)
+    setDemoStep(0)
+    // Auto-advance through demo steps
+    let step = 0
+    const interval = setInterval(() => {
+      step++
+      if (step < demoSteps.length) {
+        setDemoStep(step)
+      } else {
+        clearInterval(interval)
+      }
+    }, 1500)
+  }
+
+  const closeDemo = () => {
+    setShowDemo(false)
+    setDemoStep(0)
   }
 
   return (
@@ -211,11 +275,98 @@ function App() {
         </div>
       </div>
 
+      {/* Interactive Demo Modal */}
+      {showDemo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+          <div className="bg-slate-900 rounded-2xl p-8 max-w-2xl w-full mx-4 border border-purple-500/30 shadow-2xl">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold text-white">How MCP Works</h3>
+              <button
+                onClick={closeDemo}
+                className="text-slate-400 hover:text-white transition-colors text-2xl"
+              >
+                &times;
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              {demoSteps.map((step, index) => {
+                const StepIcon = step.icon
+                const isActive = index <= demoStep
+                const isCurrent = index === demoStep
+                return (
+                  <div
+                    key={index}
+                    className={`flex items-center gap-4 p-4 rounded-xl transition-all duration-500 ${
+                      isActive 
+                        ? `bg-gradient-to-r ${step.color} shadow-lg` 
+                        : 'bg-slate-800/50 opacity-40'
+                    } ${isCurrent ? 'scale-105' : ''}`}
+                  >
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                      isActive ? 'bg-white/20' : 'bg-slate-700'
+                    }`}>
+                      <StepIcon className={`w-6 h-6 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className={`text-sm font-medium ${isActive ? 'text-white/80' : 'text-slate-500'}`}>
+                          Step {index + 1}
+                        </span>
+                        {isActive && index < demoStep && (
+                          <CheckCircle2 className="w-4 h-4 text-white" />
+                        )}
+                      </div>
+                      <p className={`font-semibold ${isActive ? 'text-white' : 'text-slate-400'}`}>
+                        {step.label}
+                      </p>
+                      <p className={`text-sm ${isActive ? 'text-white/80' : 'text-slate-500'}`}>
+                        {step.detail}
+                      </p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="mt-6 flex gap-4">
+              <button
+                onClick={() => {
+                  setDemoStep(0)
+                  let step = 0
+                  const interval = setInterval(() => {
+                    step++
+                    if (step < demoSteps.length) {
+                      setDemoStep(step)
+                    } else {
+                      clearInterval(interval)
+                    }
+                  }, 1500)
+                }}
+                className="flex-1 px-4 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-medium transition-colors"
+              >
+                Replay Demo
+              </button>
+              <button
+                onClick={() => {
+                  closeDemo()
+                  setActiveSection(1)
+                  setTimeout(() => window.scrollTo({ top: 400, behavior: 'smooth' }), 100)
+                }}
+                className="flex-1 px-4 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium transition-colors"
+              >
+                Explore More
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Conceptual Banner */}
       <div className="bg-blue-900/30 border-b border-blue-500/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <p className="text-center text-blue-200 text-sm">
-            <strong>📚 Learning Demo:</strong> This site explains MCP concepts - it doesn't connect to real tools or data. It's for understanding the flows.
+            <strong>Learning Demo:</strong> This site explains MCP concepts - it doesn't connect to real tools or data. It's for understanding the flows.
           </p>
         </div>
       </div>
@@ -414,57 +565,94 @@ function App() {
               </p>
               <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/30">
                 <p className="text-green-200 text-sm">
-                  <strong>👩‍🎨 If you're a designer or PM:</strong> This is your world. You live here. Everything under "Setup Flow" and the technical side of "Two Real Flows" is done for you by someone else.
+                  <strong>If you're a designer or PM:</strong> This is your world. You live here. Everything under "Setup Flow" and the technical side of "Two Real Flows" is done for you by someone else.
                 </p>
               </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-8 border border-slate-700">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
-                  <MessageCircle className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-3 text-center">Claude Desktop</h3>
-                <p className="text-slate-400 text-center mb-4">Chat window where you type</p>
-                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
-                  <p className="text-sm text-slate-300 italic">"Show me all customers from Europe"</p>
-                  <div className="flex items-center gap-2 mt-2 text-xs text-purple-400">
-                    <ArrowRight className="w-3 h-3" />
-                    <span>MCP handles this behind the scenes</span>
+              {(['claude', 'vscode', 'figma'] as const).map((clientKey) => {
+                const client = clientDetails[clientKey]
+                const ClientIcon = client.icon
+                const isExpanded = selectedClient === clientKey
+                return (
+                  <div key={clientKey} className="relative">
+                    <button
+                      onClick={() => setSelectedClient(isExpanded ? null : clientKey)}
+                      className={`w-full bg-slate-800/50 backdrop-blur rounded-2xl p-8 border transition-all duration-300 text-left ${
+                        isExpanded 
+                          ? 'border-purple-500 ring-2 ring-purple-500/30' 
+                          : 'border-slate-700 hover:border-purple-500/50'
+                      }`}
+                    >
+                      <div className={`w-16 h-16 bg-gradient-to-br ${client.color} rounded-2xl flex items-center justify-center mb-4 mx-auto`}>
+                        <ClientIcon className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-white mb-3 text-center">{client.title}</h3>
+                      <p className="text-slate-400 text-center mb-4">{client.description}</p>
+                      <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                        <p className="text-sm text-slate-300 italic">{client.examples[0].split(' → ')[0]}</p>
+                        <div className="flex items-center gap-2 mt-2 text-xs text-purple-400">
+                          <ArrowRight className="w-3 h-3" />
+                          <span>{client.examples[0].split(' → ')[1]}</span>
+                        </div>
+                      </div>
+                      <p className="text-center text-xs text-purple-400 mt-4">Click to learn more</p>
+                    </button>
                   </div>
-                </div>
-              </div>
-
-              <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-8 border border-slate-700">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
-                  <Code2 className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-3 text-center">VSCode</h3>
-                <p className="text-slate-400 text-center mb-4">AI chat panel in your editor</p>
-                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
-                  <p className="text-sm text-slate-300 italic">"Find all TODO comments"</p>
-                  <div className="flex items-center gap-2 mt-2 text-xs text-blue-400">
-                    <ArrowRight className="w-3 h-3" />
-                    <span>MCP scans your codebase</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-8 border border-slate-700">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
-                  <Figma className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-3 text-center">Figma Plugin</h3>
-                <p className="text-slate-400 text-center mb-4">AI sidebar in your design</p>
-                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
-                  <p className="text-sm text-slate-300 italic">"List buttons with wrong colors"</p>
-                  <div className="flex items-center gap-2 mt-2 text-xs text-pink-400">
-                    <ArrowRight className="w-3 h-3" />
-                    <span>MCP analyzes your design</span>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
             </div>
+
+            {/* Expanded Client Details */}
+            {selectedClient && (
+              <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-2xl p-8 border border-purple-500/30 animate-in fade-in duration-300">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="flex items-center gap-4">
+                    {(() => {
+                      const client = clientDetails[selectedClient]
+                      const ClientIcon = client.icon
+                      return (
+                        <>
+                          <div className={`w-12 h-12 bg-gradient-to-br ${client.color} rounded-xl flex items-center justify-center`}>
+                            <ClientIcon className="w-6 h-6 text-white" />
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-bold text-white">{client.title}</h3>
+                            <p className="text-slate-400">{client.description}</p>
+                          </div>
+                        </>
+                      )
+                    })()}
+                  </div>
+                  <button
+                    onClick={() => setSelectedClient(null)}
+                    className="text-slate-400 hover:text-white transition-colors text-2xl"
+                  >
+                    &times;
+                  </button>
+                </div>
+
+                <p className="text-slate-300 mb-6">{clientDetails[selectedClient].fullDescription}</p>
+
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-white mb-3">What you can do:</h4>
+                  <div className="space-y-2">
+                    {clientDetails[selectedClient].examples.map((example, idx) => (
+                      <div key={idx} className="flex items-start gap-3 bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                        <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                        <p className="text-slate-300 text-sm">{example}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                  <h4 className="text-sm font-semibold text-purple-300 mb-2">How it gets set up:</h4>
+                  <p className="text-slate-400 text-sm">{clientDetails[selectedClient].setupInfo}</p>
+                </div>
+              </div>
+            )}
 
             <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-8 border border-slate-700">
               <h3 className="text-2xl font-semibold text-white mb-4 text-center">The Complete Flow (All Steps)</h3>
@@ -527,7 +715,7 @@ function App() {
                 This is the detailed version of the left side (technical person) in "Two Real Flows"
               </p>
               <div className="bg-amber-900/30 rounded-xl p-6 border border-amber-500/30 text-left">
-                <h3 className="text-lg font-semibold text-amber-200 mb-3">👤 Who is this for?</h3>
+                <h3 className="text-lg font-semibold text-amber-200 mb-3">Who is this for?</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
                     <p className="text-sm font-semibold text-red-300 mb-2">Technical Setup (one-time):</p>
@@ -830,7 +1018,7 @@ function App() {
               </p>
               <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-500/30">
                 <p className="text-blue-200 text-sm">
-                  <strong>📚 Always up-to-date:</strong> For the complete, live list of all MCP servers, visit the{' '}
+                  <strong>Always up-to-date:</strong> For the complete, live list of all MCP servers, visit the{' '}
                   <a href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200 underline">
                     official MCP servers repository
                   </a>
@@ -972,35 +1160,35 @@ function App() {
                 <p className="text-slate-300 mb-6">MCP servers are available for many different use cases:</p>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                    <h4 className="font-semibold text-green-300 mb-2">📁 Files & Storage</h4>
+                    <h4 className="font-semibold text-green-300 mb-2">Files & Storage</h4>
                     <p className="text-xs text-slate-400">Filesystem, Google Drive, Box, Dropbox, S3</p>
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                    <h4 className="font-semibold text-blue-300 mb-2">💻 Developer Tools</h4>
+                    <h4 className="font-semibold text-blue-300 mb-2">Developer Tools</h4>
                     <p className="text-xs text-slate-400">GitHub, GitLab, Azure DevOps, Bitbucket</p>
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                    <h4 className="font-semibold text-purple-300 mb-2">💬 Communication</h4>
+                    <h4 className="font-semibold text-purple-300 mb-2">Communication</h4>
                     <p className="text-xs text-slate-400">Slack, Discord, Email, Teams</p>
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                    <h4 className="font-semibold text-cyan-300 mb-2">🗄️ Databases</h4>
+                    <h4 className="font-semibold text-cyan-300 mb-2">Databases</h4>
                     <p className="text-xs text-slate-400">PostgreSQL, MySQL, MongoDB, Redis</p>
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                    <h4 className="font-semibold text-pink-300 mb-2">🎨 Design & Creative</h4>
+                    <h4 className="font-semibold text-pink-300 mb-2">Design & Creative</h4>
                     <p className="text-xs text-slate-400">Figma, Canva, Image generation</p>
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                    <h4 className="font-semibold text-amber-300 mb-2">📊 Analytics & Data</h4>
+                    <h4 className="font-semibold text-amber-300 mb-2">Analytics & Data</h4>
                     <p className="text-xs text-slate-400">Snowflake, BigQuery, Amplitude</p>
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                    <h4 className="font-semibold text-orange-300 mb-2">☁️ Cloud Platforms</h4>
+                    <h4 className="font-semibold text-orange-300 mb-2">Cloud Platforms</h4>
                     <p className="text-xs text-slate-400">AWS, Azure, Google Cloud, Kubernetes</p>
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                    <h4 className="font-semibold text-rose-300 mb-2">🔧 Productivity</h4>
+                    <h4 className="font-semibold text-rose-300 mb-2">Productivity</h4>
                     <p className="text-xs text-slate-400">Notion, Airtable, Calendars, Tasks</p>
                   </div>
                 </div>
@@ -1040,7 +1228,7 @@ function App() {
               {/* Left Column: Technical Person Flow */}
               <div className="space-y-6">
                 <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 rounded-2xl p-6 border border-blue-500/30">
-                  <h3 className="text-2xl font-semibold text-white mb-3">👨‍💻 Technical Person (Engineer / IT)</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-3">Technical Person (Engineer / IT)</h3>
                   <p className="text-slate-400 mb-6">How they build and set up MCP (usually done once)</p>
                   
                   <div className="space-y-4">
@@ -1105,7 +1293,7 @@ function App() {
               {/* Right Column: Non-Technical Person Flow */}
               <div className="space-y-6">
                 <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-2xl p-6 border border-green-500/30">
-                  <h3 className="text-2xl font-semibold text-white mb-3">👩‍🎨 Non-Technical Person (Designer / PM)</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-3">Non-Technical Person (Designer / PM)</h3>
                   <p className="text-slate-400 mb-6">How they see and use it (no coding required)</p>
                   
                   <div className="space-y-4">
@@ -1173,7 +1361,7 @@ function App() {
             </div>
 
             <div className="bg-purple-900/30 rounded-2xl p-6 border border-purple-500/30">
-              <h3 className="text-xl font-semibold text-white mb-3 text-center">🔑 Key Takeaway</h3>
+              <h3 className="text-xl font-semibold text-white mb-3 text-center">Key Takeaway</h3>
               <p className="text-slate-300 text-center max-w-3xl mx-auto">
                 <strong>Technical setup</strong> (left side) happens once by engineers/IT. <strong>Everyday use</strong> (right side) is for everyone - designers, PMs, support, analysts. You just type in apps you already know. No terminal, no config files, no coding.
               </p>
