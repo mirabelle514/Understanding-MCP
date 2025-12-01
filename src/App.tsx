@@ -7,7 +7,7 @@ function App() {
   const [selectedExample, setSelectedExample] = useState<number | null>(null)
   const [showDemo, setShowDemo] = useState(false)
   const [demoStep, setDemoStep] = useState(0)
-  const [selectedClient, setSelectedClient] = useState<string | null>(null)
+  const [selectedClient, setSelectedClient] = useState<'claude' | 'vscode' | 'figma' | null>(null)
 
   const clientDetails = {
     claude: {
