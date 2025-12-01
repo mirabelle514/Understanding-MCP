@@ -117,8 +117,9 @@ function App() {
     { id: 5, title: 'MCP Servers Directory', icon: Package },
     { id: 6, title: 'Two Real Flows', icon: User },
     { id: 7, title: 'MCP Ecosystem', icon: Globe },
-    { id: 8, title: 'Future of MCP', icon: Rocket },
-    { id: 9, title: 'Why It Matters', icon: Lightbulb }
+    { id: 8, title: 'OpenAI + MCP', icon: Brain },
+    { id: 9, title: 'Future of MCP', icon: Rocket },
+    { id: 10, title: 'Why It Matters', icon: Lightbulb }
   ]
 
   interface ExampleStep {
@@ -1574,8 +1575,171 @@ function App() {
           </div>
         )}
 
-        {/* Section 8: Future of MCP */}
+        {/* Section 8: OpenAI + MCP */}
         {activeSection === 8 && (
+          <div className="space-y-12 animate-in fade-in duration-500">
+            <div className="text-center max-w-4xl mx-auto">
+              <h2 className="text-4xl font-bold text-white mb-6">OpenAI + MCP</h2>
+              <p className="text-xl text-slate-300 leading-relaxed">
+                MCP is now cross-vendor! OpenAI has added native MCP support to their Responses API, validating MCP as a true industry standard.
+              </p>
+            </div>
+
+            {/* Big News Banner */}
+            <div className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-2xl p-6 border border-green-500/30">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-2xl font-semibold text-white">MCP Goes Cross-Vendor</h3>
+              </div>
+              <p className="text-slate-300 mb-4">
+                OpenAI now supports MCP natively in their Responses API (currently in beta). This means MCP isn't just an Anthropic thing anymore - it's becoming a true industry standard that works across different AI providers.
+              </p>
+              <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                <p className="text-sm text-green-300">
+                  <strong>What this means for you:</strong> Tools built with MCP can now work with both Claude and OpenAI models. Build once, use everywhere.
+                </p>
+              </div>
+            </div>
+
+            {/* Two Types of MCP in OpenAI */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-semibold text-white text-center">Two Ways OpenAI Uses MCP</h3>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Connectors */}
+                <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-2xl p-6 border border-purple-500/30">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <Plug2 className="w-5 h-5 text-white" />
+                    </div>
+                    <h4 className="text-xl font-semibold text-white">Connectors</h4>
+                  </div>
+                  <p className="text-slate-300 mb-4">
+                    OpenAI-maintained MCP wrappers for popular services. You don't host these - OpenAI manages them for you.
+                  </p>
+                  <div className="space-y-2">
+                    <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                      <p className="text-sm text-purple-300 font-semibold mb-1">Available Connectors:</p>
+                      <p className="text-xs text-slate-400">Gmail, Google Drive, Google Calendar, Dropbox, Microsoft Teams, Outlook Calendar, Outlook Email, SharePoint</p>
+                    </div>
+                    <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                      <p className="text-sm text-slate-300">Just provide an OAuth token and the model can access these services directly</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Remote MCP Servers */}
+                <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 rounded-2xl p-6 border border-blue-500/30">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                      <Globe className="w-5 h-5 text-white" />
+                    </div>
+                    <h4 className="text-xl font-semibold text-white">Remote MCP Servers</h4>
+                  </div>
+                  <p className="text-slate-300 mb-4">
+                    Any MCP server on the public internet. Point the model at a server URL and it will discover and use the available tools.
+                  </p>
+                  <div className="space-y-2">
+                    <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                      <p className="text-sm text-blue-300 font-semibold mb-1">Examples:</p>
+                      <p className="text-xs text-slate-400">GitHub's official MCP server, Stripe's MCP server, DeepWiki for documentation, or any custom server you build</p>
+                    </div>
+                    <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                      <p className="text-sm text-slate-300">Provide a server URL and optional authentication - the model handles the rest</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* How It Works */}
+            <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-6 border border-slate-700">
+              <h3 className="text-xl font-semibold text-white mb-4">How OpenAI's MCP Integration Works</h3>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <span className="text-purple-300 font-bold text-sm">1</span>
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">Tool Discovery</p>
+                    <p className="text-sm text-slate-400">When you specify an MCP server, the API fetches the list of available tools from that server</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <span className="text-blue-300 font-bold text-sm">2</span>
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">Model Decides</p>
+                    <p className="text-sm text-slate-400">Based on your prompt, the model decides which tools to use and in what order</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <span className="text-green-300 font-bold text-sm">3</span>
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">Approval (Optional)</p>
+                    <p className="text-sm text-slate-400">By default, you approve each tool call before it executes. You can skip approvals for trusted tools.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-amber-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <span className="text-amber-300 font-bold text-sm">4</span>
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">Tool Execution</p>
+                    <p className="text-sm text-slate-400">The API calls the MCP server, gets the result, and the model uses it to respond</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Security & Approvals */}
+            <div className="bg-gradient-to-br from-amber-900/30 to-orange-900/30 rounded-2xl p-6 border border-amber-500/30">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-white">Security & Approvals</h3>
+              </div>
+              <p className="text-slate-300 mb-4">
+                OpenAI's MCP implementation includes built-in safety features to keep you in control:
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                  <h4 className="font-semibold text-amber-300 mb-2">Approval Workflows</h4>
+                  <p className="text-sm text-slate-400">By default, the model asks for your approval before calling any MCP tool. You see exactly what data will be sent.</p>
+                </div>
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                  <h4 className="font-semibold text-orange-300 mb-2">Granular Control</h4>
+                  <p className="text-sm text-slate-400">You can set "never require approval" for trusted tools, or "always require" for sensitive actions.</p>
+                </div>
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                  <h4 className="font-semibold text-yellow-300 mb-2">Tool Filtering</h4>
+                  <p className="text-sm text-slate-400">Use allowed_tools to only expose specific tools from an MCP server, reducing risk and cost.</p>
+                </div>
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                  <h4 className="font-semibold text-red-300 mb-2">Trust Carefully</h4>
+                  <p className="text-sm text-slate-400">Only connect to MCP servers you trust. A malicious server could potentially access data in the model's context.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Key Takeaway */}
+            <div className="bg-purple-900/30 rounded-2xl p-6 border border-purple-500/30">
+              <h3 className="text-xl font-semibold text-white mb-3 text-center">Key Takeaway</h3>
+              <p className="text-slate-300 text-center max-w-3xl mx-auto">
+                OpenAI adopting MCP is a major validation of the protocol. It means the ecosystem of MCP servers being built today will work across multiple AI providers - not just Claude. For organizations, this reduces vendor lock-in and increases the value of investing in MCP integrations.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Section 9: Future of MCP */}
+        {activeSection === 9 && (
           <div className="space-y-12 animate-in fade-in duration-500">
             <div className="text-center max-w-4xl mx-auto">
               <h2 className="text-4xl font-bold text-white mb-6">The Future of MCP</h2>
@@ -1722,8 +1886,8 @@ function App() {
           </div>
         )}
 
-        {/* Section 9: Why It Matters */}
-        {activeSection === 9 && (
+        {/* Section 10: Why It Matters */}
+        {activeSection === 10 && (
           <div className="space-y-12 animate-in fade-in duration-500">
             <div className="text-center max-w-4xl mx-auto">
               <h2 className="text-4xl font-bold text-white mb-6">Why MCP Matters for Your Organization</h2>
