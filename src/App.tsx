@@ -1,90 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
-import { Sparkles, Database, FileText, Github, MessageSquare, Zap, ArrowRight, Play, CheckCircle2, Plug2, Brain, Server, Code2, Figma, Monitor, Settings, Key, Shield, User, MessageCircle, CheckCircle, ExternalLink, Package, GitBranch, Globe, Rocket, Lightbulb, Layers, Lock, Network, Terminal, Building2, Cpu, Users, Calendar, Headphones, Send, X, Bot } from 'lucide-react'
+import { Sparkles, Database, FileText, Github, MessageSquare, Zap, ArrowRight, Play, CheckCircle2, Plug2, Brain, Server, Code2, Figma, Monitor, Settings, Key, Shield, User, MessageCircle, CheckCircle, ExternalLink, Package, GitBranch, Globe, Rocket, Lightbulb, Layers, Lock, Network, Terminal, Building2, Cpu, Users, Calendar, Headphones, Send, X, Bot, Loader2 } from 'lucide-react'
 import './App.css'
 
-interface FAQItem {
-  keywords: string[]
-  question: string
-  answer: string
+interface ChatMessage {
+  role: 'user' | 'assistant'
+  content: string
 }
-
-const faqData: FAQItem[] = [
-  {
-    keywords: ['what', 'mcp', 'model context protocol', 'definition', 'mean'],
-    question: 'What is MCP?',
-    answer: 'MCP (Model Context Protocol) is an open standard launched by Anthropic in November 2024. It acts as a universal connector for AI applications - like USB-C for AI. It allows AI models to seamlessly interact with external tools, data sources, and environments through a standardized interface. Think of it as a translator that lets AI assistants talk to your databases, files, and other tools without needing custom code for each one.'
-  },
-  {
-    keywords: ['why', 'created', 'purpose', 'need', 'problem', 'solve'],
-    question: 'Why was MCP created?',
-    answer: 'Before MCP, connecting an AI to external tools required custom integrations for each combination - if you had 3 AI apps and 3 tools, you needed 9 different integrations (the N×M problem). MCP solves this by providing a single standard protocol. Now each AI app implements MCP once, and each tool implements MCP once, drastically reducing development time and maintenance costs.'
-  },
-  {
-    keywords: ['how', 'work', 'architecture', 'structure'],
-    question: 'How does MCP work?',
-    answer: 'MCP uses a client-server architecture with three main components: 1) The Host is the AI application where you interact (like Claude Desktop or Cursor). 2) The Client is a component within the Host that handles communication with servers. 3) The Server is a program that connects to external tools (like Google Drive, GitHub, or databases) and exposes their features to the AI. When you ask the AI something, it decides which MCP server to use, sends a request, and gets back the data it needs.'
-  },
-  {
-    keywords: ['client', 'host', 'app', 'application', 'use', 'where'],
-    question: 'What are MCP clients/hosts?',
-    answer: 'MCP clients are the AI applications where you interact with the AI. Popular examples include: Claude Desktop (Anthropic\'s official app), Cursor (AI-powered code editor), VSCode with AI extensions, Windsurf IDE, and custom chatbots. The client/host manages your conversation and decides when to use MCP servers to get external data or perform actions.'
-  },
-  {
-    keywords: ['server', 'connector', 'integration', 'tool'],
-    question: 'What are MCP servers?',
-    answer: 'MCP servers are programs that connect AI to specific external tools or data sources. They act as bridges - translating MCP requests into actions the external tool understands. Examples include: Google Drive server (access your files), GitHub server (manage repositories), Slack server (send/read messages), database servers (query your data), and local file servers (access files on your computer). You can find hundreds of pre-built servers or create custom ones.'
-  },
-  {
-    keywords: ['setup', 'install', 'configure', 'start', 'begin', 'get started'],
-    question: 'How do I set up MCP?',
-    answer: 'For most users, you don\'t set up MCP yourself - engineers handle the technical configuration. If you\'re using Claude Desktop: 1) Download the app from claude.ai/download. 2) Go to Settings → Developer Section → Edit Configuration. 3) Add MCP server configurations to the JSON file. 4) Restart the app. The servers will then be available when you chat. For non-technical users, just use an app that already has MCP configured - you\'ll benefit from it automatically.'
-  },
-  {
-    keywords: ['example', 'use case', 'can do', 'possible', 'capability'],
-    question: 'What can I do with MCP?',
-    answer: 'MCP enables powerful workflows: 1) Ask AI to query your database directly ("Show me all European customers"). 2) Have AI read and summarize local files. 3) Let AI manage your GitHub repos, create PRs, or check issues. 4) Connect AI to Slack to send messages or summarize channels. 5) Use AI to analyze designs in Figma. 6) Build multi-step automations across multiple tools. 7) Create personal AI assistants that securely access your data without exposing it to third parties.'
-  },
-  {
-    keywords: ['security', 'safe', 'secure', 'privacy', 'data', 'risk'],
-    question: 'Is MCP secure?',
-    answer: 'MCP is designed with security in mind, but there are considerations: 1) Servers can run locally on your machine, keeping data private. 2) You control which servers are connected and what permissions they have. 3) Human-in-the-loop features let you approve actions before they execute. 4) However, be cautious with unverified servers - they could potentially access or modify your data. Always use trusted MCP servers and review what permissions you\'re granting.'
-  },
-  {
-    keywords: ['chatgpt', 'openai', 'gpt', 'support'],
-    question: 'Does ChatGPT support MCP?',
-    answer: 'Yes! OpenAI launched Developer Mode in ChatGPT (currently in beta) which provides full MCP client support. You can connect MCP servers to ChatGPT to extend its capabilities - like connecting to Stripe, Jira, or other services. To enable it: go to Settings → Connectors → Advanced → Developer Mode. Note that this is a powerful feature with potential risks, so use trusted MCP servers only.'
-  },
-  {
-    keywords: ['cursor', 'ide', 'code', 'editor', 'developer'],
-    question: 'How does MCP work with Cursor/IDEs?',
-    answer: 'Cursor is one of the best-implemented MCP clients. With MCP servers, you can turn Cursor into an "everything app" - not just a code editor. Install the Slack MCP server to send messages, the Resend server to send emails, or image generation servers to create assets. Developers can also use MCP to give coding agents access to live browser environments for debugging, execute database queries, or manage cloud infrastructure - all without leaving the IDE.'
-  },
-  {
-    keywords: ['future', 'roadmap', 'coming', 'next', 'challenge', 'limitation'],
-    question: 'What\'s the future of MCP?',
-    answer: 'MCP is still evolving. Current challenges being addressed include: 1) Hosting & multi-tenancy for enterprise deployments. 2) Standardized authentication mechanisms. 3) Fine-grained authorization and permissions. 4) Gateway solutions for centralized management. 5) Better server discovery and marketplaces. 6) Improved execution environments for complex workflows. Anthropic is working on an MCP server registry and discovery protocol to make finding and using servers easier.'
-  },
-  {
-    keywords: ['lsp', 'language server', 'difference', 'compare', 'vs'],
-    question: 'How is MCP different from LSP?',
-    answer: 'MCP was inspired by LSP (Language Server Protocol) used in code editors, but extends beyond it. LSP is mostly reactive - responding to user input in an IDE (like autocomplete suggestions). MCP is agent-centric - AI agents can autonomously decide which tools to use, in what order, and how to chain them together. MCP also supports human-in-the-loop workflows where you approve actions before they execute.'
-  },
-  {
-    keywords: ['anthropic', 'claude', 'who', 'created', 'made', 'built'],
-    question: 'Who created MCP?',
-    answer: 'MCP was developed and open-sourced by Anthropic (the company behind Claude AI) in November 2024. Dario Amodei and Daniela Amodei, Anthropic\'s founders, have been vocal about MCP\'s potential to reshape how AI integrates with the internet and real-world systems. While Anthropic created it, MCP is an open standard that anyone can implement and contribute to.'
-  },
-  {
-    keywords: ['tool', 'resource', 'prompt', 'capability', 'feature'],
-    question: 'What are Tools, Resources, and Prompts in MCP?',
-    answer: 'MCP servers can expose three types of capabilities: 1) Tools are actions the AI can perform (like "send_email" or "query_database"). 2) Resources are data sources the AI can read (like files, database records, or API responses). 3) Prompts are pre-defined templates that help structure interactions. Together, these let AI models both access information and take actions in the real world.'
-  },
-  {
-    keywords: ['local', 'remote', 'cloud', 'run', 'where'],
-    question: 'Can MCP servers run locally or remotely?',
-    answer: 'Both! MCP servers can run locally on your computer (great for accessing local files or keeping data private) or remotely on the internet (for cloud services and shared access). Currently, most MCP usage is local-first, but remote MCP servers are becoming more common. Platforms like Cloudflare and Smithery are emerging to help host and scale remote MCP servers.'
-  }
-]
 
 function App() {
   const [activeSection, setActiveSection] = useState(0)
@@ -94,8 +15,9 @@ function App() {
   const [selectedClient, setSelectedClient] = useState<'claude' | 'vscode' | 'figma' | null>(null)
   const [showChat, setShowChat] = useState(false)
   const [chatInput, setChatInput] = useState('')
-  const [chatMessages, setChatMessages] = useState<{role: 'user' | 'bot', content: string}[]>([
-    { role: 'bot', content: 'Hi! I\'m here to answer your questions about MCP (Model Context Protocol). Ask me anything!' }
+  const [isLoading, setIsLoading] = useState(false)
+  const [chatMessages, setChatMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
+    { role: 'assistant', content: 'Hi! I\'m an AI assistant here to answer your questions about MCP (Model Context Protocol). Ask me anything!' }
   ])
   const chatEndRef = useRef<HTMLDivElement>(null)
 
@@ -103,42 +25,38 @@ function App() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chatMessages])
 
-  const findBestMatch = (input: string): string => {
-    const lowerInput = input.toLowerCase()
-    let bestMatch: FAQItem | null = null
-    let bestScore = 0
-
-    for (const faq of faqData) {
-      let score = 0
-      for (const keyword of faq.keywords) {
-        if (lowerInput.includes(keyword)) {
-          score += keyword.length
-        }
-      }
-      if (score > bestScore) {
-        bestScore = score
-        bestMatch = faq
-      }
-    }
-
-    if (bestMatch && bestScore > 2) {
-      return bestMatch.answer
-    }
-
-    return "I'm not sure about that specific question, but I can help with topics like: What is MCP, how it works, MCP clients and servers, security, setup, use cases, and more. Try asking something like \"What is MCP?\" or \"How does MCP work?\""
-  }
-
-  const handleSendMessage = () => {
-    if (!chatInput.trim()) return
+  const handleSendMessage = async () => {
+    if (!chatInput.trim() || isLoading) return
 
     const userMessage = chatInput.trim()
-    setChatMessages(prev => [...prev, { role: 'user', content: userMessage }])
+    const newUserMessage: ChatMessage = { role: 'user', content: userMessage }
+    setChatMessages(prev => [...prev, newUserMessage])
     setChatInput('')
+    setIsLoading(true)
 
-    setTimeout(() => {
-      const response = findBestMatch(userMessage)
-      setChatMessages(prev => [...prev, { role: 'bot', content: response }])
-    }, 500)
+    try {
+      const messagesForApi: ChatMessage[] = [...chatMessages.filter(m => m.role !== 'assistant' || chatMessages.indexOf(m) !== 0), newUserMessage]
+      
+      const response = await fetch('/api/mcp-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages: messagesForApi }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to get response')
+      }
+
+      const data = await response.json()
+      setChatMessages(prev => [...prev, { role: 'assistant', content: data.message }])
+    } catch (error) {
+      console.error('Error sending message:', error)
+      setChatMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' }])
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const clientDetails = {
@@ -2000,11 +1918,11 @@ function App() {
         </div>
       </div>
 
-      {/* FAQ Chatbot */}
+      {/* AI Chat Assistant */}
       <button
         onClick={() => setShowChat(!showChat)}
         className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-50"
-        aria-label="Open FAQ Chat"
+        aria-label="Open AI Chat"
       >
         {showChat ? <X className="w-6 h-6 text-white" /> : <Bot className="w-6 h-6 text-white" />}
       </button>
@@ -2014,9 +1932,9 @@ function App() {
           <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-t-2xl">
             <h3 className="text-white font-semibold flex items-center gap-2">
               <Bot className="w-5 h-5" />
-              MCP FAQ Assistant
+              MCP AI Assistant
             </h3>
-            <p className="text-white/80 text-sm">Ask me anything about MCP!</p>
+            <p className="text-white/80 text-sm">Powered by AI - Ask me anything about MCP!</p>
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-[200px] max-h-[300px]">
@@ -2036,6 +1954,16 @@ function App() {
                 </div>
               </div>
             ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="max-w-[85%] p-3 rounded-2xl bg-slate-800 text-slate-200 rounded-bl-md">
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <p className="text-sm">Thinking about MCP...</p>
+                  </div>
+                </div>
+              </div>
+            )}
             <div ref={chatEndRef} />
           </div>
 
@@ -2045,20 +1973,22 @@ function App() {
                 type="text"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                onKeyDown={(e) => e.key === 'Enter' && !isLoading && handleSendMessage()}
                 placeholder="Ask about MCP..."
                 className="flex-1 bg-slate-800 text-white rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-slate-500"
+                disabled={isLoading}
               />
               <button
                 onClick={handleSendMessage}
-                className="bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-xl transition-colors"
+                disabled={isLoading}
+                className="bg-purple-500 hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed text-white p-2 rounded-xl transition-colors"
                 aria-label="Send message"
               >
-                <Send className="w-5 h-5" />
+                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
               </button>
             </div>
             <p className="text-xs text-slate-500 mt-2 text-center">
-              Try: "What is MCP?" or "How does it work?"
+              Ask any question about MCP
             </p>
           </div>
         </div>
