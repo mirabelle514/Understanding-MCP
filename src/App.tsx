@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Sparkles, Database, FileText, Github, MessageSquare, Zap, ArrowRight, Play, CheckCircle2, Plug2, Brain, Server, Code2, Figma, Monitor, Settings, Key, Shield, User, MessageCircle, CheckCircle, ExternalLink, Package, GitBranch } from 'lucide-react'
+import { Sparkles, Database, FileText, Github, MessageSquare, Zap, ArrowRight, Play, CheckCircle2, Plug2, Brain, Server, Code2, Figma, Monitor, Settings, Key, Shield, User, MessageCircle, CheckCircle, ExternalLink, Package, GitBranch, Globe, Rocket, Lightbulb, Layers, Lock, Network, Terminal, Building2, Cpu, Users, Calendar, Headphones } from 'lucide-react'
 import './App.css'
 
 function App() {
@@ -13,7 +13,10 @@ function App() {
     { id: 3, title: 'Credentials', icon: Key },
     { id: 4, title: 'Real Examples', icon: Zap },
     { id: 5, title: 'MCP Servers Directory', icon: Package },
-    { id: 6, title: 'Two Real Flows', icon: User }
+    { id: 6, title: 'Two Real Flows', icon: User },
+    { id: 7, title: 'MCP Ecosystem', icon: Globe },
+    { id: 8, title: 'Future of MCP', icon: Rocket },
+    { id: 9, title: 'Why It Matters', icon: Lightbulb }
   ]
 
   interface ExampleStep {
@@ -295,6 +298,104 @@ function App() {
               <h3 className="text-2xl font-semibold text-white mb-4">The Simple Analogy</h3>
               <p className="text-lg text-slate-300 leading-relaxed">
                 Think of MCP like a translator at the United Nations. The AI speaks one language, your database speaks another, your files speak another. MCP translates between them so they can all work together seamlessly.
+              </p>
+            </div>
+
+            {/* Model / Context / Protocol Breakdown */}
+            <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 rounded-2xl p-8 border border-blue-500/30">
+              <h3 className="text-2xl font-semibold text-white mb-6">Breaking Down "MCP"</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-700">
+                  <div className="text-3xl font-bold text-blue-400 mb-3">M</div>
+                  <h4 className="text-lg font-semibold text-white mb-2">Model</h4>
+                  <p className="text-slate-400 text-sm">
+                    The AI brain (like Claude or GPT-4) that understands your questions and generates responses
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-700">
+                  <div className="text-3xl font-bold text-cyan-400 mb-3">C</div>
+                  <h4 className="text-lg font-semibold text-white mb-2">Context</h4>
+                  <p className="text-slate-400 text-sm">
+                    The extra information the AI needs - your documents, databases, files, or any data that helps it give meaningful answers
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-700">
+                  <div className="text-3xl font-bold text-purple-400 mb-3">P</div>
+                  <h4 className="text-lg font-semibold text-white mb-2">Protocol</h4>
+                  <p className="text-slate-400 text-sm">
+                    The rules and standards that let the Model access and use that Context - like a shared language everyone agrees to speak
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Client vs Server */}
+            <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-2xl p-8 border border-green-500/30">
+              <h3 className="text-2xl font-semibold text-white mb-6">The Two Sides of MCP</h3>
+              <p className="text-slate-300 mb-6">Every MCP connection has two parts working together:</p>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-700">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <MessageCircle className="w-5 h-5 text-white" />
+                    </div>
+                    <h4 className="text-xl font-semibold text-white">MCP Client</h4>
+                  </div>
+                  <p className="text-slate-400 mb-4">The app where you chat with AI</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-slate-300">
+                      <CheckCircle2 className="w-4 h-4 text-green-400" />
+                      <span>Claude Desktop</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-300">
+                      <CheckCircle2 className="w-4 h-4 text-green-400" />
+                      <span>Cursor (code editor)</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-300">
+                      <CheckCircle2 className="w-4 h-4 text-green-400" />
+                      <span>Custom AI chatbots</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-700">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                      <Database className="w-5 h-5 text-white" />
+                    </div>
+                    <h4 className="text-xl font-semibold text-white">MCP Server</h4>
+                  </div>
+                  <p className="text-slate-400 mb-4">The connector to your tools and data</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-slate-300">
+                      <CheckCircle2 className="w-4 h-4 text-green-400" />
+                      <span>Google Drive, Dropbox</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-300">
+                      <CheckCircle2 className="w-4 h-4 text-green-400" />
+                      <span>GitHub, databases</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-300">
+                      <CheckCircle2 className="w-4 h-4 text-green-400" />
+                      <span>Local files on your computer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                <p className="text-center text-slate-300 text-sm">
+                  <strong className="text-green-300">Simple version:</strong> Client = where you type. Server = what the AI connects to.
+                </p>
+              </div>
+            </div>
+
+            {/* For Technical Folks: MCP vs LSP */}
+            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600">
+              <div className="flex items-center gap-2 mb-4">
+                <Code2 className="w-5 h-5 text-slate-400" />
+                <h4 className="text-lg font-semibold text-slate-300">For Technical Folks: MCP vs LSP</h4>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                MCP was inspired by the Language Server Protocol (LSP) used in code editors. But while LSP is <em>reactive</em> (responding to what you type), MCP is <em>agent-centric</em>: AI agents can autonomously decide which tools to use, in what order, and how to chain them together. MCP also supports human-in-the-loop workflows where you approve actions before they execute.
               </p>
             </div>
           </div>
@@ -1076,6 +1177,486 @@ function App() {
               <p className="text-slate-300 text-center max-w-3xl mx-auto">
                 <strong>Technical setup</strong> (left side) happens once by engineers/IT. <strong>Everyday use</strong> (right side) is for everyone - designers, PMs, support, analysts. You just type in apps you already know. No terminal, no config files, no coding.
               </p>
+            </div>
+          </div>
+        )}
+
+        {/* Section 7: MCP Ecosystem */}
+        {activeSection === 7 && (
+          <div className="space-y-12 animate-in fade-in duration-500">
+            <div className="text-center max-w-4xl mx-auto">
+              <h2 className="text-4xl font-bold text-white mb-6">The MCP Ecosystem</h2>
+              <p className="text-xl text-slate-300 leading-relaxed">
+                MCP is more than just servers - it's a growing ecosystem of clients, servers, marketplaces, and infrastructure
+              </p>
+            </div>
+
+            {/* Ecosystem Layers */}
+            <div className="space-y-6">
+              {/* Clients Layer */}
+              <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-2xl p-6 border border-purple-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <Monitor className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-white">MCP Clients</h3>
+                </div>
+                <p className="text-slate-300 mb-4">Apps where you interact with AI that can use MCP</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-purple-300 mb-2">Developer-Focused</h4>
+                    <p className="text-sm text-slate-400">Cursor, VSCode with AI extensions, Windsurf, Zed - code editors with built-in AI that can connect to your tools</p>
+                  </div>
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-pink-300 mb-2">General Purpose</h4>
+                    <p className="text-sm text-slate-400">Claude Desktop, custom chatbots - AI assistants for everyone, not just developers</p>
+                  </div>
+                </div>
+                <div className="mt-4 bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                  <p className="text-xs text-slate-400">
+                    <strong className="text-purple-300">Coming soon:</strong> Expect more business-focused clients for customer support, marketing, design, and other specialized workflows
+                  </p>
+                </div>
+              </div>
+
+              {/* Servers Layer */}
+              <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 rounded-2xl p-6 border border-blue-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                    <Server className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-white">MCP Servers</h3>
+                </div>
+                <p className="text-slate-300 mb-4">Connectors that let AI access your tools and data</p>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-blue-300 mb-2">Official Reference</h4>
+                    <p className="text-sm text-slate-400">Filesystem, Git, Fetch, Memory - maintained by the MCP team</p>
+                  </div>
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-cyan-300 mb-2">Company-Built</h4>
+                    <p className="text-sm text-slate-400">Slack, GitHub, AWS, Azure, Atlassian - official integrations from major platforms</p>
+                  </div>
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-green-300 mb-2">Community</h4>
+                    <p className="text-sm text-slate-400">Hundreds of community-built servers for databases, APIs, and niche tools</p>
+                  </div>
+                </div>
+                <div className="mt-4 bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                  <p className="text-xs text-slate-400">
+                    <strong className="text-blue-300">Current state:</strong> Most servers today are local-first and single-user. Remote, multi-tenant servers are emerging.
+                  </p>
+                </div>
+              </div>
+
+              {/* Marketplaces Layer */}
+              <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-2xl p-6 border border-green-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                    <Package className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-white">Marketplaces & Registries</h3>
+                </div>
+                <p className="text-slate-300 mb-4">Places to discover and install MCP servers</p>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <a href="https://mcpt.mintlify.dev" target="_blank" rel="noopener noreferrer" className="bg-slate-900/50 rounded-lg p-4 border border-slate-700 hover:border-green-500 transition-all group">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-green-300">Mintlify mcpt</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-green-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">MCP server registry and discovery</p>
+                  </a>
+                  <a href="https://smithery.ai" target="_blank" rel="noopener noreferrer" className="bg-slate-900/50 rounded-lg p-4 border border-slate-700 hover:border-green-500 transition-all group">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-green-300">Smithery</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-green-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">MCP server hosting and marketplace</p>
+                  </a>
+                  <a href="https://opentools.ai" target="_blank" rel="noopener noreferrer" className="bg-slate-900/50 rounded-lg p-4 border border-slate-700 hover:border-green-500 transition-all group">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-green-300">OpenTools</h4>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-green-400" />
+                    </div>
+                    <p className="text-sm text-slate-400">AI tool discovery platform</p>
+                  </a>
+                </div>
+                <div className="mt-4 bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                  <p className="text-xs text-slate-400">
+                    <strong className="text-green-300">Why this matters:</strong> Today, finding MCP servers means hunting through GitHub. Marketplaces will make it as easy as installing an app from an app store.
+                  </p>
+                </div>
+              </div>
+
+              {/* Infrastructure Layer */}
+              <div className="bg-gradient-to-br from-amber-900/30 to-orange-900/30 rounded-2xl p-6 border border-amber-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
+                    <Layers className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-white">Infrastructure & Tooling</h3>
+                </div>
+                <p className="text-slate-300 mb-4">Tools that help build, host, and manage MCP servers</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-amber-300 mb-2">Server Generation</h4>
+                    <p className="text-sm text-slate-400">Mintlify, Stainless, Speakeasy - tools that auto-generate MCP servers from existing APIs and documentation</p>
+                  </div>
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                    <h4 className="font-semibold text-orange-300 mb-2">Hosting & Management</h4>
+                    <p className="text-sm text-slate-400">Cloudflare, Smithery, Toolbase - platforms for deploying servers and managing connections</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Ecosystem Visual */}
+            <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-8 border border-slate-700">
+              <h3 className="text-2xl font-semibold text-white mb-6 text-center">How It All Connects</h3>
+              <div className="flex items-center justify-center gap-4 flex-wrap">
+                <div className="bg-purple-500/20 rounded-xl p-4 border border-purple-500/30 text-center min-w-[120px]">
+                  <Monitor className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+                  <p className="text-sm text-purple-300 font-semibold">You</p>
+                  <p className="text-xs text-slate-400">Use a Client</p>
+                </div>
+                <ArrowRight className="w-6 h-6 text-slate-500" />
+                <div className="bg-blue-500/20 rounded-xl p-4 border border-blue-500/30 text-center min-w-[120px]">
+                  <Server className="w-8 h-8 text-blue-400 mx-auto mb-2" />
+                  <p className="text-sm text-blue-300 font-semibold">MCP Server</p>
+                  <p className="text-xs text-slate-400">Found via Registry</p>
+                </div>
+                <ArrowRight className="w-6 h-6 text-slate-500" />
+                <div className="bg-green-500/20 rounded-xl p-4 border border-green-500/30 text-center min-w-[120px]">
+                  <Database className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                  <p className="text-sm text-green-300 font-semibold">Your Tools</p>
+                  <p className="text-xs text-slate-400">Data & APIs</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Section 8: Future of MCP */}
+        {activeSection === 8 && (
+          <div className="space-y-12 animate-in fade-in duration-500">
+            <div className="text-center max-w-4xl mx-auto">
+              <h2 className="text-4xl font-bold text-white mb-6">The Future of MCP</h2>
+              <p className="text-xl text-slate-300 leading-relaxed">
+                MCP is still evolving. Here's what's being worked on and what challenges remain.
+              </p>
+            </div>
+
+            {/* Current Limitations */}
+            <div className="bg-amber-900/20 rounded-2xl p-6 border border-amber-500/30">
+              <h3 className="text-xl font-semibold text-amber-200 mb-4">What's Still Being Figured Out</h3>
+              <p className="text-slate-300 mb-4">MCP is powerful but still early. These are the areas actively being improved:</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Hosting & Multi-tenancy */}
+              <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-6 border border-slate-700">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                    <Building2 className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">Hosting & Multi-tenancy</h4>
+                </div>
+                <p className="text-slate-400 text-sm mb-3">
+                  <strong className="text-blue-300">Today:</strong> Most MCP servers run locally on your computer, for one user at a time.
+                </p>
+                <p className="text-slate-400 text-sm">
+                  <strong className="text-cyan-300">Future:</strong> Remote servers that many users can share, like how you use Google Docs - everyone connects to the same service.
+                </p>
+              </div>
+
+              {/* Authentication */}
+              <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-6 border border-slate-700">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <Lock className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">Authentication</h4>
+                </div>
+                <p className="text-slate-400 text-sm mb-3">
+                  <strong className="text-purple-300">Today:</strong> Each MCP server handles login differently. No standard way to authenticate.
+                </p>
+                <p className="text-slate-400 text-sm">
+                  <strong className="text-pink-300">Future:</strong> Unified login flows (like "Sign in with Google") that work across all MCP servers.
+                </p>
+              </div>
+
+              {/* Authorization */}
+              <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-6 border border-slate-700">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">Fine-Grained Permissions</h4>
+                </div>
+                <p className="text-slate-400 text-sm mb-3">
+                  <strong className="text-green-300">Today:</strong> Access is all-or-nothing. If you can use a tool, you can use all of it.
+                </p>
+                <p className="text-slate-400 text-sm">
+                  <strong className="text-emerald-300">Future:</strong> Granular controls - "AI can read my calendar but not delete events."
+                </p>
+              </div>
+
+              {/* Gateway */}
+              <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-6 border border-slate-700">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
+                    <Network className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">MCP Gateway</h4>
+                </div>
+                <p className="text-slate-400 text-sm mb-3">
+                  <strong className="text-amber-300">Today:</strong> Each client connects directly to each server. Gets messy with many connections.
+                </p>
+                <p className="text-slate-400 text-sm">
+                  <strong className="text-orange-300">Future:</strong> A central gateway that manages all connections, security, and routing in one place.
+                </p>
+              </div>
+
+              {/* Workflow Execution */}
+              <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-6 border border-slate-700">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-rose-500 to-red-500 rounded-lg flex items-center justify-center">
+                    <Cpu className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">Multi-Step Workflows</h4>
+                </div>
+                <p className="text-slate-400 text-sm mb-3">
+                  <strong className="text-rose-300">Today:</strong> If a multi-step task fails halfway, you often have to start over.
+                </p>
+                <p className="text-slate-400 text-sm">
+                  <strong className="text-red-300">Future:</strong> Built-in support for resuming, retrying, and managing long-running tasks.
+                </p>
+              </div>
+
+              {/* Debugging */}
+              <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-6 border border-slate-700">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-lg flex items-center justify-center">
+                    <Terminal className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">Debugging & Consistency</h4>
+                </div>
+                <p className="text-slate-400 text-sm mb-3">
+                  <strong className="text-indigo-300">Today:</strong> Same server can behave differently in different clients. Hard to troubleshoot.
+                </p>
+                <p className="text-slate-400 text-sm">
+                  <strong className="text-violet-300">Future:</strong> Better debugging tools and more consistent behavior across all clients.
+                </p>
+              </div>
+            </div>
+
+            {/* For Technical Folks: Try It Yourself */}
+            <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600">
+              <div className="flex items-center gap-2 mb-4">
+                <Terminal className="w-5 h-5 text-slate-400" />
+                <h4 className="text-lg font-semibold text-slate-300">For Technical Folks: Try It Yourself</h4>
+              </div>
+              <p className="text-slate-400 text-sm mb-4">
+                Want to build your own MCP server? Here are some starter projects you can try in Claude Desktop:
+              </p>
+              <div className="grid md:grid-cols-2 gap-4 mb-4">
+                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                  <p className="text-sm text-slate-300">Create a custom greeting server</p>
+                </div>
+                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                  <p className="text-sm text-slate-300">Count files on your desktop</p>
+                </div>
+                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                  <p className="text-sm text-slate-300">Save chat conversations locally</p>
+                </div>
+                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
+                  <p className="text-sm text-slate-300">Ask questions about local PDFs</p>
+                </div>
+              </div>
+              <p className="text-slate-500 text-xs">
+                These tasks require Python, the MCP library, and Claude Desktop. See the{' '}
+                <a href="https://modelcontextprotocol.io/quickstart" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300 underline">
+                  official MCP quickstart guide
+                </a>{' '}
+                for setup instructions.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Section 9: Why It Matters */}
+        {activeSection === 9 && (
+          <div className="space-y-12 animate-in fade-in duration-500">
+            <div className="text-center max-w-4xl mx-auto">
+              <h2 className="text-4xl font-bold text-white mb-6">Why MCP Matters for Your Organization</h2>
+              <p className="text-xl text-slate-300 leading-relaxed">
+                MCP isn't just a technical protocol - it's changing how AI tools are built, sold, and used
+              </p>
+            </div>
+
+            {/* Key Implications */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-2xl p-6 border border-purple-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <Package className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">Tools Become Modular</h4>
+                </div>
+                <p className="text-slate-300 text-sm">
+                  Instead of building one big AI app that does everything, companies can build small, focused MCP servers. Users mix and match the tools they need. Think app store, but for AI capabilities.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 rounded-2xl p-6 border border-blue-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">Documentation Matters More</h4>
+                </div>
+                <p className="text-slate-300 text-sm">
+                  AI agents will choose tools based on how well they're documented. Clear, machine-readable docs (like llms.txt) become a competitive advantage. Good docs = more AI usage.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-2xl p-6 border border-green-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">Dynamic Tool Selection</h4>
+                </div>
+                <p className="text-slate-300 text-sm">
+                  AI agents may start picking tools dynamically based on speed, cost, and relevance - not just what's installed. This could lead to more market-driven tool adoption.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-900/30 to-orange-900/30 rounded-2xl p-6 border border-amber-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
+                    <Layers className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">APIs Evolve Into Tools</h4>
+                </div>
+                <p className="text-slate-300 text-sm">
+                  APIs alone aren't enough anymore. MCP tools are higher-level abstractions designed for AI agents - instead of "send_email()", think "draft_and_send_email()" that handles multiple steps.
+                </p>
+              </div>
+            </div>
+
+            {/* Applications Section */}
+            <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-8 border border-slate-700">
+              <h3 className="text-2xl font-semibold text-white mb-6">New Possibilities MCP Enables</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center mb-3">
+                    <Calendar className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-white mb-2">Multi-Step Projects</h4>
+                  <p className="text-slate-400 text-sm">
+                    Plan an event by having AI coordinate across calendar, email, docs, and task management - all in one conversation.
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mb-3">
+                    <Cpu className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-white mb-2">Smart Environments</h4>
+                  <p className="text-slate-400 text-sm">
+                    AI that interacts with IoT devices - "Turn off office lights at 9pm if no meetings are scheduled."
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-3">
+                    <Users className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-white mb-2">Collaborating Agents</h4>
+                  <p className="text-slate-400 text-sm">
+                    Multiple AI agents sharing information and coordinating tasks without needing custom integrations between them.
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+                  <div className="w-10 h-10 bg-gradient-to-br from-rose-500 to-red-500 rounded-lg flex items-center justify-center mb-3">
+                    <Headphones className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-white mb-2">Enhanced Support</h4>
+                  <p className="text-slate-400 text-sm">
+                    Customer support AI that can access ticketing systems, CRM, and knowledge bases to provide context-aware help.
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+                  <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center mb-3">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-white mb-2">Personal Assistants</h4>
+                  <p className="text-slate-400 text-sm">
+                    AI assistants that securely access your personal data (notes, files, preferences) without exposing it to third parties.
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+                  <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center mb-3">
+                    <Figma className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-white mb-2">Design Automation</h4>
+                  <p className="text-slate-400 text-sm">
+                    AI that can read your design system, check for inconsistencies, and even sync changes to code repositories.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* For Different Roles */}
+            <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-2xl p-8 border border-purple-500/30">
+              <h3 className="text-2xl font-semibold text-white mb-6">What This Means for You</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+                  <h4 className="font-semibold text-purple-300 mb-3">For Designers</h4>
+                  <p className="text-slate-400 text-sm">
+                    AI tools that actually understand your design system and can help maintain consistency. Less manual checking, more creative work.
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+                  <h4 className="font-semibold text-pink-300 mb-3">For Product Managers</h4>
+                  <p className="text-slate-400 text-sm">
+                    Think about "features" as "tools available to AI agents." What capabilities should your product expose via MCP?
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+                  <h4 className="font-semibold text-blue-300 mb-3">For Organizations</h4>
+                  <p className="text-slate-400 text-sm">
+                    MCP could change how you buy and integrate software. Instead of big suites, you might assemble AI-powered workflows from modular tools.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-8 border border-slate-700 text-center">
+              <h3 className="text-2xl font-semibold text-white mb-4">Stay Informed</h3>
+              <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
+                MCP is evolving rapidly. The best way to stay current is to follow the official documentation and community.
+              </p>
+              <div className="flex items-center justify-center gap-4 flex-wrap">
+                <a
+                  href="https://modelcontextprotocol.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all"
+                >
+                  <ExternalLink className="w-5 h-5" />
+                  Official MCP Docs
+                </a>
+                <a
+                  href="https://github.com/modelcontextprotocol"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all"
+                >
+                  <Github className="w-5 h-5" />
+                  GitHub Organization
+                </a>
+              </div>
             </div>
           </div>
         )}
